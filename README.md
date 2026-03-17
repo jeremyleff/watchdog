@@ -1,4 +1,5 @@
 # Watchdog
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A generic, configurable monitoring and notification service for Windows.
 
