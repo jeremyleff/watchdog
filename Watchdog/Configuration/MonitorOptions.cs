@@ -14,6 +14,24 @@ public class ChannelConfig
     public string Id { get; set; } = "";
     public string Type { get; set; } = "";
     public SmtpChannelOptions? Smtp { get; set; }
+    public NtfyChannelOptions? Ntfy { get; set; }
+}
+
+public class NtfyChannelOptions
+{
+    /// <summary>Base URL of the ntfy server, e.g. https://ntfy.sh or http://127.0.0.1:2586</summary>
+    public string ServerUrl { get; set; } = "https://ntfy.sh";
+    public string Topic { get; set; } = "";
+    /// <summary>Access token (tk_...). Prefer AccessTokenFile so the token isn't stored in appsettings.json.</summary>
+    public string? AccessToken { get; set; }
+    /// <summary>Path to a file containing only the access token.</summary>
+    public string? AccessTokenFile { get; set; }
+    /// <summary>1 (min) to 5 (max); 3 is ntfy's default.</summary>
+    public int Priority { get; set; } = 3;
+    /// <summary>ntfy tags; names matching emoji shortcodes show as emoji (e.g. "bicyclist").</summary>
+    public List<string> Tags { get; set; } = [];
+    /// <summary>Optional URL opened when the notification is tapped.</summary>
+    public string? ClickUrl { get; set; }
 }
 
 public class SmtpChannelOptions

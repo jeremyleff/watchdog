@@ -27,7 +27,8 @@ Watchdog runs as a Windows Service and periodically checks any number of configu
 
 | Type | What it does |
 |---|---|
-| `Smtp` | Sends email via SMTP. Works with Gmail App Passwords. Also supports SMS via carrier email gateways (e.g. `5551234567@vtext.com` for Verizon). |
+| `Smtp` | Sends email via SMTP. Works with Gmail App Passwords. (Carrier email-to-SMS gateways such as Verizon's vtext.com have been shut down; use `Ntfy` for phone alerts.) |
+| `Ntfy` | Sends a push notification through [ntfy](https://ntfy.sh), either the public ntfy.sh or a self-hosted server. Supports access tokens (preferably from a file), priority, tags/emoji and a tap-to-open URL. |
 
 ## Setup
 
@@ -46,7 +47,18 @@ Copy `appsettings.Sample.json` to `appsettings.json` and fill in your details:
           "Username": "you@gmail.com",
           "Password": "your-gmail-app-password",  // Generate at myaccount.google.com → Security → App passwords
           "FromAddress": "you@gmail.com",
-          "Recipients": ["you@example.com", "5551234567@vtext.com"]
+          "Recipients": ["you@example.com"]
+        }
+      },
+      {
+        "Id": "phone-ntfy",
+        "Type": "Ntfy",
+        "Ntfy": {
+          "ServerUrl": "https://ntfy.sh",          // or your self-hosted server
+          "Topic": "your-topic",
+          "AccessTokenFile": "C:\\path\\to\\token", // file containing only the tk_... token (or use "AccessToken")
+          "Priority": 4,                           // 1–5
+          "Tags": ["bicyclist"]                    // emoji shortcodes show as emoji
         }
       }
     ],

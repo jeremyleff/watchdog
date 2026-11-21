@@ -11,6 +11,7 @@ public class NotificationChannelFactory
 
     public NotificationChannelFactory(
         IOptions<NotificationMonitorOptions> options,
+        IHttpClientFactory httpClientFactory,
         ILoggerFactory loggerFactory)
     {
         var channels = new Dictionary<string, INotificationChannel>();
@@ -23,6 +24,12 @@ public class NotificationChannelFactory
                     config.Smtp,
                     loggerFactory.CreateLogger<SmtpNotificationChannel>()),
                 "Smtp" => throw new InvalidOperationException($"Channel '{config.Id}' is type Smtp but has no Smtp configuration."),
+                "Ntfy" when config.Ntfy is not null => new NtfyNotificationChannel(
+                    config.Id,
+                    config.Ntfy,
+                    httpClientFactory,
+                    loggerFactory.CreateLogger<NtfyNotificationChannel>()),
+                "Ntfy" => throw new InvalidOperationException($"Channel '{config.Id}' is type Ntfy but has no Ntfy configuration."),
                 _ => throw new InvalidOperationException($"Unknown channel type '{config.Type}' for channel '{config.Id}'.")
             };
             channels[config.Id] = channel;
